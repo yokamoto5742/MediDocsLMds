@@ -1,0 +1,60 @@
+============================================================
+プロジェクト構造: MediDocsLMcl
+パス: C:\Users\yokam\PycharmProjects\MediDocsLMcl
+生成日時: 2026-01-10 15:16:58
+============================================================
+
+└── MediDocsLMcl
+    ├── database
+    │   ├── __init__.py
+    │   ├── db.py
+    │   ├── models.py
+    │   └── schema.py
+    ├── docs
+    │   ├── README.md
+    │   ├── CHANGELOG.md
+    │   └── LICENSE
+    ├── external_service
+    │   ├── __init__.py
+    │   ├── api_factory.py
+    │   ├── base_api.py
+    │   ├── claude_api.py
+    │   ├── gemini_api.py
+    │   └── gemini_evaluation.py
+    ├── scripts
+    │   ├── AnthropicBedrock_API.py
+    │   ├── db_reset.py
+    │   ├── init_db.py
+    │   ├── json_minifier.py
+    │   ├── project_structure.py
+    │   ├── project_structure.txt
+    │   └── VertexAI_API.py
+    ├── services
+    │   ├── __init__.py
+    │   ├── evaluation_service.py
+    │   └── summary_service.py
+    ├── ui_components
+    │   ├── __init__.py
+    │   └── navigation.py
+    ├── utils
+    │   ├── config.ini
+    │   ├── __init__.py
+    │   ├── config.py
+    │   ├── constants.py
+    │   ├── error_handlers.py
+    │   ├── exceptions.py
+    │   ├── prompt_manager.py
+    │   └── text_processor.py
+    ├── views
+    │   ├── __init__.py
+    │   ├── evaluation_settings_page.py
+    │   ├── main_page.py
+    │   ├── prompt_management_page.py
+    │   └── statistics_page.py
+    ├── Procfile
+    ├── requirements.txt
+    ├── .python-version
+    ├── app.py
+    ├── CLAUDE.md
+    ├── pyrightconfig.json
+    └── setup.sh

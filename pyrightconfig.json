@@ -1,0 +1,9 @@
+{
+  "typeCheckingMode": "standard",
+  "pythonVersion": "3.12",
+  "include": ["services","utils","ui_components","views"],
+  "exclude": ["tests", "scripts"],
+  "reportMissingTypeStubs": false,
+  "reportUnusedVariable": true,
+  "reportUnusedImport": true
+}
