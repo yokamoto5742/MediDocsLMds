@@ -40,11 +40,11 @@ class APIFactory:
                                      document_type: str = DEFAULT_DOCUMENT_TYPE,
                                      doctor: str = "default",
                                      model_name: str = None,
-                                     previous_record: str = ""):
+                                     current_prescription: str = ""):
         client = APIFactory.create_client(provider)
         return client.generate_summary(
             medical_text, additional_info, department,
-            document_type, doctor, model_name, previous_record
+            document_type, doctor, model_name, current_prescription
         )
 
 

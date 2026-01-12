@@ -134,25 +134,25 @@ class TestBuildEvaluationPrompt:
     def test_build_evaluation_prompt_basic(self):
         """基本的な評価プロンプト構築のテスト"""
         prompt_template = "以下の情報を評価してください："
-        previous_record = "前回の診療内容"
+        current_prescription = "退院時処方内容"
         input_text = "今回の診療内容"
         additional_info = "追加の情報"
         output_summary = "生成されたサマリー"
 
         result = build_evaluation_prompt(
             prompt_template,
-            previous_record,
             input_text,
+            current_prescription,
             additional_info,
             output_summary
         )
 
         assert prompt_template in result
-        assert previous_record in result
+        assert current_prescription in result
         assert input_text in result
         assert additional_info in result
         assert output_summary in result
-        assert '【前回の記載】' in result
+        assert '【退院時処方(現在の処方)】' in result
         assert '【カルテ記載】' in result
         assert '【追加情報】' in result
         assert '【生成された出力】' in result

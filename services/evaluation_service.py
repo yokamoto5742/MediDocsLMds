@@ -31,24 +31,20 @@ def create_or_update_evaluation_prompt(document_type: str, content: str) -> Tupl
         db_manager = DatabaseManager.get_instance()
         existing = db_manager.query_one(EvaluationPrompt, {"document_type": document_type})
 
+        db_manager.upsert(
+            EvaluationPrompt,
+            {"document_type": document_type},
+            {
+                "content": content,
+                "is_active": True,
+                "created_at": datetime.datetime.now(),
+                "updated_at": datetime.datetime.now()
+            }
+        )
+
         if existing:
-            db_manager.update(
-                EvaluationPrompt,
-                {"document_type": document_type},
-                {"content": content, "updated_at": datetime.datetime.now()}
-            )
             return True, "評価プロンプトを更新しました"
         else:
-            db_manager.insert(
-                EvaluationPrompt,
-                {
-                    "document_type": document_type,
-                    "content": content,
-                    "is_active": True,
-                    "created_at": datetime.datetime.now(),
-                    "updated_at": datetime.datetime.now()
-                }
-            )
             return True, "評価プロンプトを新規作成しました"
     except Exception as e:
         return False, f"エラーが発生しました: {str(e)}"

@@ -39,7 +39,7 @@ def generate_summary_task(
         selected_document_type: str = DEFAULT_DOCUMENT_TYPE,
         selected_doctor: str = "default",
         model_explicitly_selected: bool = False,
-        previous_record: str = ""
+        current_prescription: str = ""
 ) -> None:
     try:
         normalized_dept, normalized_doc_type = normalize_selection_params(
@@ -62,7 +62,7 @@ def generate_summary_task(
             document_type=normalized_doc_type,
             doctor=selected_doctor,
             model_name=model_name,
-            previous_record=previous_record
+            current_prescription=current_prescription
         )
 
         model_detail = model_name if provider == "gemini" else final_model
@@ -89,7 +89,7 @@ def generate_summary_task(
 
 
 @handle_error
-def process_summary(input_text: str, additional_info: str = "", previous_record: str = "") -> None:
+def process_summary(input_text: str, additional_info: str = "", current_prescription: str = "") -> None:
     validate_api_credentials()
     validate_input_text(input_text)
 
@@ -97,7 +97,7 @@ def process_summary(input_text: str, additional_info: str = "", previous_record:
         session_params = get_session_parameters()
 
         result = execute_summary_generation_with_ui(
-            input_text, additional_info, session_params, previous_record
+            input_text, additional_info, session_params, current_prescription
         )
 
         if result["success"]:
@@ -144,7 +144,7 @@ def execute_summary_generation_with_ui(
         input_text: str,
         additional_info: str,
         session_params: Dict[str, Any],
-        previous_record: str = ""
+        current_prescription: str = ""
 ) -> Dict[str, Any]:
     start_time = datetime.datetime.now()
     status_placeholder = st.empty()
@@ -161,7 +161,7 @@ def execute_summary_generation_with_ui(
             session_params["selected_document_type"],
             session_params["selected_doctor"],
             session_params["model_explicitly_selected"],
-            previous_record
+            current_prescription
         ),
     )
     summary_thread.start()

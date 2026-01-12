@@ -22,7 +22,7 @@ class BaseAPIClient(ABC):
     
     def create_summary_prompt(self, medical_text: str, additional_info: str = "",
                             department: str = "default", document_type: str = DEFAULT_DOCUMENT_TYPE,
-                            doctor: str = "default", previous_record: str = "") -> str:
+                            doctor: str = "default", current_prescription: str = "") -> str:
         prompt_data = get_prompt(department, document_type, doctor)
 
         if not prompt_data:
@@ -46,7 +46,7 @@ class BaseAPIClient(ABC):
             document_type: str = DEFAULT_DOCUMENT_TYPE,
             doctor: str = "default",
             model_name: Optional[str] = None,
-            previous_record: str = ""
+            current_prescription: str = ""
     ) -> Tuple[str, int, int]:
         try:
             self.initialize()
@@ -54,7 +54,7 @@ class BaseAPIClient(ABC):
             if not model_name:
                 model_name = self.get_model_name(department, document_type, doctor)
 
-            prompt = self.create_summary_prompt(medical_text, additional_info, department, document_type, doctor, previous_record)
+            prompt = self.create_summary_prompt(medical_text, additional_info, department, document_type, doctor, current_prescription)
 
             return self._generate_content(prompt, model_name)
 

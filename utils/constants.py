@@ -63,7 +63,7 @@ TAB_NAMES = {
 DEFAULT_DEPARTMENT = ["default","内科", "消化器内科", "整形外科"]
 DEFAULT_DOCTOR = ["default"]
 DEPARTMENT_DOCTORS_MAPPING = {
-    "default": ["default","医師共通"],
+    "default": ["default"],
 }
 
 DEFAULT_DOCUMENT_TYPE = "退院時サマリ"

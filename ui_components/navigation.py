@@ -69,7 +69,8 @@ def render_sidebar():
         save_user_settings(selected_dept, st.session_state.selected_model, st.session_state.selected_doctor)
         st.rerun()
 
-    if len(available_doctors) > 1:
+    # available_doctorsが["default"]のみの場合は医師選択を非表示
+    if available_doctors != ["default"]:
         selected_doctor = st.sidebar.selectbox(
             "医師名",
             available_doctors,

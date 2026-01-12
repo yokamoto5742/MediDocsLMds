@@ -2,7 +2,7 @@ import streamlit as st
 
 from services.evaluation_service import process_evaluation
 from services.summary_service import process_summary
-from utils.constants import DEFAULT_DOCUMENT_TYPE, MESSAGES, TAB_NAMES
+from utils.constants import DEFAULT_DOCUMENT_TYPE, DEFAULT_SECTION_NAMES, MESSAGES, TAB_NAMES
 from utils.error_handlers import handle_error
 from ui_components.navigation import render_sidebar
 
@@ -50,7 +50,7 @@ def render_input_section():
 
     with col1:
         if st.button("作成", type="primary"):
-            process_summary(input_text, additional_info, previous_record)
+            process_summary(input_text, additional_info, current_prescription)
 
     with col2:
         if st.session_state.output_summary:
@@ -73,7 +73,14 @@ def render_summary_results():
     if st.session_state.output_summary:
         if st.session_state.parsed_summary:
             tabs = st.tabs([
-                TAB_NAMES["ALL"], TAB_NAMES["TREATMENT"], TAB_NAMES["SPECIAL"], TAB_NAMES["NOTE"]])
+                TAB_NAMES["ALL"],
+                TAB_NAMES["ADMISSION_PERIOD"],
+                TAB_NAMES["CURRENT_ILLNESS"],
+                TAB_NAMES["ADMISSION_TESTS"],
+                TAB_NAMES["TREATMENT_PROGRESS"],
+                TAB_NAMES["DISCHARGE_NOTES"],
+                TAB_NAMES["NOTE"]
+            ])
 
             with tabs[0]:
                 st.code(st.session_state.output_summary,
@@ -81,10 +88,9 @@ def render_summary_results():
                         height=150
                         )
 
-            sections = [TAB_NAMES["TREATMENT"], TAB_NAMES["SPECIAL"], TAB_NAMES["NOTE"]]
-            for i, section in enumerate(sections, 1):
+            for i, section_name in enumerate(DEFAULT_SECTION_NAMES, 1):
                 with tabs[i]:
-                    section_content = st.session_state.parsed_summary.get(section, "")
+                    section_content = st.session_state.parsed_summary.get(section_name, "")
                     st.code(section_content,
                             language=None,
                             height=150)
@@ -118,8 +124,8 @@ def main_page_app():
         document_type = st.session_state.get("selected_document_type", DEFAULT_DOCUMENT_TYPE)
         process_evaluation(
             document_type,
-            st.session_state.get("previous_record", ""),
             st.session_state.get("input_text", ""),
+            st.session_state.get("current_prescription", ""),
             st.session_state.get("additional_info", ""),
             st.session_state.output_summary,
             evaluation_progress_placeholder
