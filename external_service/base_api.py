@@ -31,7 +31,13 @@ class BaseAPIClient(ABC):
         else:
             prompt_template = prompt_data['content']
 
-        prompt = f"{prompt_template}\n【カルテ情報】\n{medical_text}\n【退院時処方(現在の処方)】\n{current_prescription}\n【追加情報】{additional_info}"
+        prompt = f"{prompt_template}\n【カルテ情報】\n{medical_text}"
+
+        if current_prescription.strip():
+            prompt += f"\n【退院時処方(現在の処方)】\n{current_prescription}"
+
+        prompt += f"\n【追加情報】{additional_info}"
+
         return prompt
     
     def get_model_name(self, department: str, document_type: str, doctor: str) -> str:
