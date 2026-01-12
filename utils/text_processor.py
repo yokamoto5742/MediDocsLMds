@@ -4,9 +4,13 @@ from utils.constants import DEFAULT_SECTION_NAMES, SECTION_DETECTION_PATTERNS
 
 section_aliases = {
     "治療内容": "治療経過",
+    "病名": "主病名",
+    "症状": "症状経過",
+    "処方": "現在の処方",
+    "薬剤": "現在の処方",
     "その他": "備考",
     "補足": "備考",
-    "メモ": "備考"
+    "メモ": "備考",
 }
 
 

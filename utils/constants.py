@@ -52,22 +52,29 @@ MESSAGES = {
 
 TAB_NAMES = {
     "ALL": "全文",
-    "TREATMENT": "治療経過",
-    "SPECIAL": "特記事項",
-    "NOTE": "備考"
+    "ADMISSION_PERIOD": "【入院期間】",
+    "CURRENT_ILLNESS": "【現病歴】",
+    "ADMISSION_TESTS": "【入院時検査】",
+    "TREATMENT_PROGRESS": "【入院中の治療経過】",
+    "DISCHARGE_NOTES": "【退院申し送り】",
+    "NOTE": "【備考】"
 }
 
-DEFAULT_SECTION_NAMES = ["治療経過", "特記事項", "備考"]
-
-DEFAULT_DEPARTMENT = ["default"]
+DEFAULT_DEPARTMENT = ["default","内科", "消化器内科", "整形外科"]
 DEFAULT_DOCTOR = ["default"]
-DEFAULT_DOCUMENT_TYPE = "主治医意見書"
-DOCUMENT_TYPES = ["主治医意見書", "訪問看護指示書"]
-DOCUMENT_TYPE_OPTIONS = ["すべて", "主治医意見書", "訪問看護指示書"]
-
 DEPARTMENT_DOCTORS_MAPPING = {
-    "default": ["default"],
+    "default": ["default","医師共通"],
 }
+
+DEFAULT_DOCUMENT_TYPE = "退院時サマリ"
+DOCUMENT_TYPES = ["退院時サマリ", "現病歴"]
+DOCUMENT_NAME_OPTIONS = ["退院時サマリ", "現病歴", "すべて"]
+
+MODEL_OPTIONS =  ["すべて", "Claude", "Gemini_Pro"]
+
+DEFAULT_SECTION_NAMES = [
+    "入院期間", "現病歴", "入院時検査", "入院中の治療経過", "退院申し送り", "備考"
+]
 
 # 【治療経過】: 内容 など(改行含む)
 # 治療経過: 内容 など(改行含む)

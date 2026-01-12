@@ -8,7 +8,7 @@ from ui_components.navigation import render_sidebar
 
 
 def clear_inputs():
-    st.session_state.previous_record = ""
+    st.session_state.current_prescription = ""
     st.session_state.input_text = ""
     st.session_state.additional_info = ""
     st.session_state.output_summary = ""
@@ -28,10 +28,10 @@ def render_input_section():
     if "clear_input" not in st.session_state:
         st.session_state.clear_input = False
 
-    previous_record = st.text_area(
-        "前回の記載",
+    current_prescription = st.text_area(
+        "退院時処方(現在の処方)",
         height=70,
-        key="previous_record"
+        key="current_prescription"
     )
 
     input_text = st.text_area(
