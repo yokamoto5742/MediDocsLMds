@@ -11,7 +11,7 @@ from views.statistics_page import usage_statistics_ui
 load_environment_variables()
 
 st.set_page_config(
-    page_title="主治医意見書作成アプリ",
+    page_title="退院時サマリ作成アプリ",
     page_icon="📋",
     layout="wide"
 )

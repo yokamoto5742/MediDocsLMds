@@ -68,8 +68,7 @@ DEPARTMENT_DOCTORS_MAPPING = {
 
 DEFAULT_DOCUMENT_TYPE = "退院時サマリ"
 DOCUMENT_TYPES = ["退院時サマリ", "現病歴"]
-DOCUMENT_NAME_OPTIONS = ["退院時サマリ", "現病歴", "すべて"]
-
+DOCUMENT_TYPE_OPTIONS = ["退院時サマリ", "現病歴", "すべて"]
 MODEL_OPTIONS =  ["すべて", "Claude", "Gemini_Pro"]
 
 DEFAULT_SECTION_NAMES = [
