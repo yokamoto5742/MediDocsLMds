@@ -24,7 +24,7 @@
       "Bash(move teststest_indexed_file_searcher.py testsservice )",
       "Bash(move teststest_file_opener.py testsservice )",
       "Bash(move teststest_handlers.py testsservice)",
-      "Bash(python -m pytest tests/ -v --tb=short --disable-warnings)",
+      "Bash(python -m pytest tests/ -v --tb=short --disable-warnings)"
     ],
     "deny": [
       "Bash(sudo:*)",
