@@ -56,18 +56,18 @@ def create_or_update_evaluation_prompt(document_type: str, content: str) -> Tupl
 
 def build_evaluation_prompt(
     prompt_template: str,
-    previous_record: str,
     input_text: str,
+    current_prescription: str,
     additional_info: str,
     output_summary: str
 ) -> str:
     return f"""{prompt_template}
 
-【前回の記載】
-{previous_record}
-
 【カルテ記載】
 {input_text}
+
+【退院時処方(現在の処方)】
+{current_prescription}
 
 【追加情報】
 {additional_info}
@@ -79,8 +79,8 @@ def build_evaluation_prompt(
 
 def evaluate_output_task(
     document_type: str,
-    previous_record: str,
     input_text: str,
+    current_prescription: str,
     additional_info: str,
     output_summary: str,
     result_queue: queue.Queue
@@ -93,8 +93,11 @@ def evaluate_output_task(
         prompt_template = prompt_data.get("content", "")
 
         full_prompt = build_evaluation_prompt(
-            prompt_template, previous_record, input_text,
-            additional_info, output_summary
+            prompt_template,
+            input_text,
+            current_prescription,
+            additional_info,
+            output_summary
         )
 
         if not GEMINI_EVALUATION_MODEL:
@@ -138,8 +141,8 @@ def display_evaluation_progress(
 @handle_error
 def process_evaluation(
     document_type: str,
-    previous_record: str,
     input_text: str,
+    current_prescription: str,
     additional_info: str,
     output_summary: str,
     progress_placeholder: DeltaGenerator
@@ -159,7 +162,7 @@ def process_evaluation(
 
     evaluation_thread = threading.Thread(
         target=evaluate_output_task,
-        args=(document_type, previous_record, input_text, additional_info, output_summary, result_queue)
+        args=(document_type, input_text, current_prescription, additional_info, output_summary, result_queue)
     )
     evaluation_thread.start()
 
