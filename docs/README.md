@@ -183,7 +183,8 @@ pyright
 │   ├── api_factory.py                     # APIファクトリー
 │   ├── base_api.py                        # 基底APIクラス（抽象クラス）
 │   ├── claude_api.py                      # Claude API（AWS Bedrock）
-│   └── gemini_api.py                      # Gemini API（Vertex AI）
+│   ├── gemini_api.py                      # Gemini API（Vertex AI）
+│   └── gemini_evaluation.py               # 出力評価機能
 ├── services/                              # ビジネスロジック
 │   ├── evaluation_service.py              # 評価サービス
 │   └── summary_service.py                 # サマリー作成サービス
