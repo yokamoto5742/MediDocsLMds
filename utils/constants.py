@@ -1,3 +1,15 @@
+DEFAULT_DEPARTMENT = ["default","内科", "消化器内科", "整形外科"]
+DEFAULT_DOCTOR = ["default"]
+DEFAULT_DOCUMENT_TYPE = "退院時サマリ"
+DEFAULT_SECTION_NAMES = [
+    "入院期間", "現病歴", "入院時検査", "入院中の治療経過", "退院申し送り", "備考"
+]
+DEPARTMENT_DOCTORS_MAPPING = {
+    "default": ["default"],
+}
+DOCUMENT_TYPE_OPTIONS = ["退院時サマリ", "現病歴", "すべて"]
+DOCUMENT_TYPES = ["退院時サマリ", "現病歴"]
+
 MESSAGES = {
     "PROMPT_UPDATED": "プロンプトを更新しました",
     "PROMPT_CREATED": "プロンプトを新規作成しました",
@@ -50,30 +62,7 @@ MESSAGES = {
     "EVALUATION_COMPLETED": "評価が完了しました。画面を下までスクロールしてください。",
 }
 
-TAB_NAMES = {
-    "ALL": "全文",
-    "ADMISSION_PERIOD": "【入院期間】",
-    "CURRENT_ILLNESS": "【現病歴】",
-    "ADMISSION_TESTS": "【入院時検査】",
-    "TREATMENT_PROGRESS": "【入院中の治療経過】",
-    "DISCHARGE_NOTES": "【退院申し送り】",
-    "NOTE": "【備考】"
-}
-
-DEFAULT_DEPARTMENT = ["default","内科", "消化器内科", "整形外科"]
-DEFAULT_DOCTOR = ["default"]
-DEPARTMENT_DOCTORS_MAPPING = {
-    "default": ["default"],
-}
-
-DEFAULT_DOCUMENT_TYPE = "退院時サマリ"
-DOCUMENT_TYPES = ["退院時サマリ", "現病歴"]
-DOCUMENT_TYPE_OPTIONS = ["退院時サマリ", "現病歴", "すべて"]
 MODEL_OPTIONS =  ["すべて", "Claude", "Gemini_Pro"]
-
-DEFAULT_SECTION_NAMES = [
-    "入院期間", "現病歴", "入院時検査", "入院中の治療経過", "退院申し送り", "備考"
-]
 
 # 【治療経過】: 内容 など(改行含む)
 # 治療経過: 内容 など(改行含む)
@@ -83,3 +72,13 @@ SECTION_DETECTION_PATTERNS = [
     r'^{section}\s*[::]?\s*(.*)$',
     r'^{section}\s*$',
 ]
+
+TAB_NAMES = {
+    "ALL": "全文",
+    "ADMISSION_PERIOD": "入院期間",
+    "CURRENT_ILLNESS": "現病歴",
+    "ADMISSION_TESTS": "入院時検査",
+    "TREATMENT_PROGRESS": "入院中の治療経過",
+    "DISCHARGE_NOTES": "退院申し送り",
+    "NOTE": "備考"
+}
