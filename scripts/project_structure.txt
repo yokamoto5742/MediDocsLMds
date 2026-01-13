@@ -1,10 +1,10 @@
 ============================================================
-プロジェクト構造: MediDocsLMcl
-パス: C:\Users\yokam\PycharmProjects\MediDocsLMcl
-生成日時: 2026-01-10 15:16:58
+プロジェクト構造: MediDocsLMds
+パス: C:\Users\yokam\PycharmProjects\MediDocsLMds
+生成日時: 2026-01-13 14:32:32
 ============================================================
 
-└── MediDocsLMcl
+└── MediDocsLMds
     ├── database
     │   ├── __init__.py
     │   ├── db.py
@@ -22,13 +22,8 @@
     │   ├── gemini_api.py
     │   └── gemini_evaluation.py
     ├── scripts
-    │   ├── AnthropicBedrock_API.py
-    │   ├── db_reset.py
-    │   ├── init_db.py
-    │   ├── json_minifier.py
     │   ├── project_structure.py
-    │   ├── project_structure.txt
-    │   └── VertexAI_API.py
+    │   └── project_structure.txt
     ├── services
     │   ├── __init__.py
     │   ├── evaluation_service.py
@@ -57,4 +52,17 @@
     ├── app.py
     ├── CLAUDE.md
     ├── pyrightconfig.json
-    └── setup.sh
+    ├── setup.sh
+    ├── tmpclaude-234b-cwd
+    ├── tmpclaude-2867-cwd
+    ├── tmpclaude-42d3-cwd
+    ├── tmpclaude-4d7b-cwd
+    ├── tmpclaude-53d2-cwd
+    ├── tmpclaude-8db0-cwd
+    ├── tmpclaude-8fb0-cwd
+    ├── tmpclaude-940c-cwd
+    ├── tmpclaude-a050-cwd
+    ├── tmpclaude-ab61-cwd
+    ├── tmpclaude-ae05-cwd
+    ├── tmpclaude-b601-cwd
+    └── tmpclaude-c009-cwd

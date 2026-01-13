@@ -145,9 +145,10 @@ class TestDeletePrompt:
                 {"department": "内科", "document_type": "主治医意見書", "doctor": "田中医師"}
             )
 
+    @patch('utils.prompt_manager.DEFAULT_DOCUMENT_TYPE', '退院時サマリ')
     def test_delete_prompt_default_protection(self):
         """デフォルトプロンプトの削除保護テスト"""
-        success, message = delete_prompt("default", "主治医意見書", "default")
+        success, message = delete_prompt("default", "退院時サマリ", "default")
 
         assert success is False
         assert message == "デフォルトプロンプトは削除できません"

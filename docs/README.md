@@ -55,19 +55,14 @@ pip install -r requirements.txt
 ```
 
 ### 4. Google Cloud認証設定（Vertex AI使用時）
-Vertex AI + Geminiを使用する場合は、Google Cloud Service Accountを作成し、認証情報を取得します：
+Vertex AI + Geminiを使用する場合、Google Cloud Service Account JSONを取得します：
 
-1. [Google Cloud Console](https://console.cloud.google.com/)にアクセス
-2. プロジェクトを作成または選択
-3. 「APIとサービス」→「認証情報」に移動
-4. 「認証情報を作成」→「サービスアカウント」を選択
-5. サービスアカウント名を入力し、作成
-6. Vertex AI APIを有効化：「APIとサービス」→「ライブラリ」で「Vertex AI API」を検索し有効化
-7. 作成したサービスアカウントに以下の権限を付与：
-   - `Vertex AI User`
-   - `AI Platform Developer`
-8. 「キー」タブで「キーを追加」→「新しいキーを作成」→「JSON」を選択
-9. ダウンロードしたJSONファイルの内容を`GOOGLE_CREDENTIALS_JSON`環境変数に設定
+1. [Google Cloud Console](https://console.cloud.google.com/) → プロジェクト選択
+2. 「APIとサービス」→「ライブラリ」で「Vertex AI API」を有効化
+3. 「認証情報」→「サービスアカウント」で新規作成
+4. 「Vertex AI User」権限を付与
+5. 「キー」タブで新しいJSON形式のキーを作成
+6. ダウンロードしたJSONの内容を `GOOGLE_CREDENTIALS_JSON` 環境変数に設定
 
 ### 5. 環境変数の設定
 `.env`ファイルを作成し、以下の設定を行ってください：
@@ -138,83 +133,74 @@ streamlit run app.py
 
 ## 設定カスタマイズ
 
-### 診療科・医師の追加
-`utils/constants.py`の以下の部分を編集：
+診療科・医師・文書タイプのカスタマイズは `utils/constants.py` で管理されています：
 
 ```python
 DEFAULT_DEPARTMENT = ["default", "内科", "消化器内科", "整形外科"]
 
 DEPARTMENT_DOCTORS_MAPPING = {
-    "default": ["default", "医師共通"],
-    "内科": ["default", "田中医師", "佐藤医師"],
-    "整形外科": ["default", "鈴木医師"]
+    "default": ["default"],
+    "内科": ["default", "医師A", "医師B"]
 }
-```
 
-### 文書タイプの追加
-```python
 DOCUMENT_TYPES = ["退院時サマリ", "現病歴"]
-DEFAULT_DOCUMENT_TYPE = "退院時サマリ"
+
+DEFAULT_SECTION_NAMES = ["入院期間", "現病歴", "入院時検査", "治療経過", "退院申し送り", "備考"]
 ```
 
-### セクション名のカスタマイズ
-```python
-DEFAULT_SECTION_NAMES = [
-    "入院期間", "現病歴", "入院時検査", 
-    "入院中の治療経過", "退院申し送り", "備考"
-]
-```
+また、プロンプト管理ページから診療科・医師ごとのカスタムプロンプトを設定できます。
 
 ## 開発者向け情報
 
 ### 開発・テスト環境
 ```bash
-# テスト実行
-python -m pytest tests/ -v
+# テスト実行（全テスト）
+pytest --cov=. tests/
 
-# カバレッジ付きテスト
-python -m pytest tests/ -v --cov=. --cov-report=html
+# 特定テストファイルの実行
+pytest tests/test_summary_service.py
 
+# 詳細出力でテスト実行
+pytest -v tests/
+
+# 型チェック
+pyright
 ```
 
 ### プロジェクト構造
 ```
-├── app.py                        # メインアプリケーション
-├── config.ini                    # 設定ファイル
-├── Procfile                      # Heroku用設定
-├── requirements.txt              # Python依存関係
-├── runtime.txt                   # Python実行環境
-├── setup.sh                     # Streamlit設定
-├── database/                     # データベース関連
-│   ├── db.py                     # DB接続管理
-│   ├── models.py                 # SQLAlchemyモデル
-│   ├── repositories.py           # データアクセス層
-│   └── schema.py                 # テーブル管理
-├── external_service/             # 外部API連携
-│   ├── api_factory.py            # APIファクトリー
-│   ├── base_api.py               # 基底APIクラス
-│   ├── claude_api.py             # Claude API
-│   └── gemini_api.py             # Gemini API
-├── services/                     # ビジネスロジック
-│   ├── generation_service.py     # 文書生成サービス
-│   ├── model_service.py          # モデル管理サービス
-│   ├── statistics_service.py     # 統計サービス
-│   ├── summary_service.py        # サマリー作成サービス
-│   └── validation_service.py     # バリデーションサービス
-├── ui_components/                # UIコンポーネント
-│   └── navigation.py             # ナビゲーション・設定
-├── utils/                        # ユーティリティ
-│   ├── config.py                 # 設定管理
-│   ├── constants.py              # 定数定義
-│   ├── env_loader.py             # 環境変数読み込み
-│   ├── error_handlers.py         # エラーハンドリング
-│   ├── exceptions.py             # 例外クラス
-│   ├── prompt_manager.py         # プロンプト管理
-│   └── text_processor.py         # テキスト処理
-└── views/                        # ページビュー
-    ├── main_page.py              # メインページ
-    ├── prompt_management_page.py # プロンプト管理
-    └── statistics_page.py        # 統計ページ
+├── app.py                                 # メインアプリケーション
+├── CLAUDE.md                              # 開発ガイドライン
+├── Procfile                               # Heroku用設定
+├── pyrightconfig.json                     # 型チェック設定
+├── requirements.txt                       # Python依存関係
+├── setup.sh                               # Streamlit設定
+├── database/                              # データベース関連
+│   ├── db.py                              # DB接続管理
+│   ├── models.py                          # SQLAlchemyモデル
+│   └── schema.py                          # テーブル管理
+├── external_service/                      # 外部API連携
+│   ├── api_factory.py                     # APIファクトリー
+│   ├── base_api.py                        # 基底APIクラス（抽象クラス）
+│   ├── claude_api.py                      # Claude API（AWS Bedrock）
+│   └── gemini_api.py                      # Gemini API（Vertex AI）
+├── services/                              # ビジネスロジック
+│   ├── evaluation_service.py              # 評価サービス
+│   └── summary_service.py                 # サマリー作成サービス
+├── ui_components/                         # UIコンポーネント
+│   └── navigation.py                      # ナビゲーション・ユーザー設定
+├── utils/                                 # ユーティリティ
+│   ├── config.py                          # 設定管理
+│   ├── constants.py                       # 定数定義
+│   ├── error_handlers.py                  # エラーハンドリング
+│   ├── exceptions.py                      # 例外クラス
+│   ├── prompt_manager.py                  # プロンプト管理
+│   └── text_processor.py                  # テキスト処理
+└── views/                                 # ページビュー
+    ├── main_page.py                       # メインページ
+    ├── prompt_management_page.py          # プロンプト管理
+    ├── statistics_page.py                 # 統計情報表示
+    └── evaluation_settings_page.py        # 評価設定
 ```
 
 ### データベーステーブル
@@ -232,7 +218,7 @@ python -m pytest tests/ -v --cov=. --cov-report=html
 ### 主要機能
 
 #### 自動モデル切り替え
-- Claude選択時に入力テキストが設定された文字数を超える場合、自動的にGemini_Proに切り替え
+- Claude選択時に入力テキストが設定トークン数を超える場合、自動的にGeminiに切り替え
 - 切り替え時にはユーザーに通知表示
 
 #### プロンプト階層管理
@@ -244,109 +230,27 @@ python -m pytest tests/ -v --cov=. --cov-report=html
 - モデル別・診療科別・医師別の詳細分析
 - トークン使用量と処理時間の管理
 
-### テスト状況
-- 最近修正されたテスト:
-  - `tests/external_service/test_gemini_api.py` - GOOGLE_CREDENTIALS_JSON認証対応
-  - `tests/services/test_model_service.py` - 認証情報変数名更新
-  - `tests/services/test_validation_service.py` - 認証チェック更新
-  - `tests/services/test_summary_service.py` - datetime mocking問題を解決
-  - `tests/utils/test_text_processor.py` - inline content parsing issue解決
-- カバレッジレポート利用可能
+## 最新の変更
 
-### 開発者体験向上
-- **自動通知システム**: 作業完了時のデスクトップ通知
-- **hooks設定**: Claude Code終了時の自動通知
-- **手動通知**: 任意のタイミングでの通知実行
-- **統合開発環境**: CLAUDE.md による開発コマンド整備
-
-## 変更履歴
-
-### v2.1.0 (2025-09-15) - Vertex AI認証統合
-#### 🔄 認証システム変更
-- **BREAKING CHANGE**: `GEMINI_CREDENTIALS` → `GOOGLE_CREDENTIALS_JSON`に変更
-- Google Cloud Service Account JSON認証に移行
-- 新規環境変数追加: `GOOGLE_PROJECT_ID`, `GOOGLE_LOCATION`
-- Vertex AI APIとの完全統合
-
-#### 🛠️ コード改善
-- `external_service/gemini_api.py`: Service Account認証ロジック実装
-- `utils/config.py`: 認証設定変数更新
-- `services/`: 全サービスクラスの認証チェック更新
-- `ui_components/navigation.py`: UI認証状態表示更新
-
-#### 🧪 テスト更新
-- 全247テストが新しい認証方式に対応
-- `test_gemini_api.py`: Service Accountモック実装
-- 認証関連テストケースの comprehensive更新
-
-#### 📚 ドキュメント更新
-- README.md: Google Cloud Service Account取得手順追加
-- 環境変数設定例更新
-- Herokuデプロイ手順更新
-- トラブルシューティング強化
-
-#### 🔧 後方互換性
-- 環境変数`GOOGLE_CREDENTIALS_JSON`未設定時は従来の認証方式を使用
-- 段階的移行をサポート
-
-## デプロイメント
-
-### Herokuデプロイ
-このアプリケーションはHerokuへのデプロイに対応しています。
-
-1. Heroku CLIをインストール
-2. Herokuアプリを作成
-3. PostgreSQLアドオンを追加
-4. 環境変数を設定
-5. デプロイ実行
-
-```bash
-heroku create your-app-name
-heroku addons:create heroku-postgresql:mini
-heroku config:set AWS_ACCESS_KEY_ID=your_aws_access_key_id
-heroku config:set AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-heroku config:set AWS_REGION=ap-northeast-1
-heroku config:set ANTHROPIC_MODEL=apac.anthropic.claude-sonnet-4-20250514-v1:0
-heroku config:set GOOGLE_CREDENTIALS_JSON='{"type":"service_account","project_id":"your-project",...}'
-heroku config:set GOOGLE_PROJECT_ID=your-google-cloud-project-id
-heroku config:set GOOGLE_LOCATION=us-west1
-git push heroku main
-```
+変更履歴は [docs/CHANGELOG.md](CHANGELOG.md) を参照してください。
 
 ## トラブルシューティング
 
-### よくある問題
+### よくある問題と解決方法
 
-#### データベース接続エラー
-- PostgreSQLサービスが起動しているか確認
-- 環境変数の設定を再確認
-- データベースとユーザーの権限を確認
-
-#### API認証エラー
-- AWS認証情報（Access Key, Secret Key）が正しく設定されているか確認
-- Google Cloud Service Account JSONが正しく設定されているか確認
-- `GOOGLE_PROJECT_ID`と`GOOGLE_LOCATION`が設定されているか確認
-- Service AccountにVertex AI APIの権限が付与されているか確認
-- APIの有効期限と使用制限を確認
-- ネットワーク接続を確認
-
-#### トークン数超過エラー
-- 入力テキストの長さを調整
-- `MAX_TOKEN_THRESHOLD`の値を調整
-- Vertex AI + Gemini APIを有効にして自動切り替えを利用
+| 問題 | 原因 | 対処法 |
+|------|------|------|
+| データベース接続エラー | PostgreSQL未起動、環境変数未設定 | `DATABASE_URL`を確認し、PostgreSQLサービスを起動 |
+| API認証エラー | AWS/Google認証情報が不正 | AWS Access Key、`GOOGLE_CREDENTIALS_JSON`を再確認 |
+| トークン数超過エラー | 入力テキストが上限超過 | 入力を短縮するか`MAX_TOKEN_THRESHOLD`を調整 |
+| Streamlit起動エラー | ポート競合または設定エラー | `streamlit run app.py --logger.level=debug`で詳細確認 |
 
 ### パフォーマンス最適化
+- **DB**: `DB_POOL_SIZE`（デフォルト5）を調整
+- **API**: プロンプト最適化によるトークン削減
 
-#### データベース最適化
-- コネクションプールサイズの調整（`DB_POOL_SIZE`）
-- クエリインデックスの最適化
+## ライセンスと免責
 
-#### API使用量最適化
-- プロンプトの最適化によるトークン削減
-- 適切なモデル選択による効率化
+このプロジェクトは [Apache License 2.0](LICENSE) のもとで公開されています。
 
-### ライセンス
-このプロジェクトは[Apache License 2.0](docs/LICENSE)のもとで公開されています。
-
-### 免責事項
-このアプリケーションは医療文書作成の支援ツールです。生成された文書は必ず医療従事者による確認・承認を経てご使用ください。本ソフトウェアの使用により生じたいかなる損害についても、開発者は責任を負いません。
+このアプリケーションは医療文書作成の支援ツールです。生成された文書は医療従事者による確認・承認が必須です。本ソフトウェアの使用により生じた損害について、開発者は責任を負いません。

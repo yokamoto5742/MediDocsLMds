@@ -1,9 +1,21 @@
 import os
 import shutil
+import sys
 import pytest
 import logging
 import tempfile
-from unittest.mock import Mock
+from unittest.mock import Mock, MagicMock
+
+# streamlitのモックをインポート前に設定
+mock_st = MagicMock()
+mock_st.session_state = {}
+mock_st.spinner = MagicMock()
+mock_st.warning = MagicMock()
+mock_st.error = MagicMock()
+mock_st.success = MagicMock()
+mock_st.info = MagicMock()
+sys.modules['streamlit'] = mock_st
+sys.modules['streamlit.delta_generator'] = MagicMock()
 
 
 @pytest.fixture(scope="session", autouse=True)

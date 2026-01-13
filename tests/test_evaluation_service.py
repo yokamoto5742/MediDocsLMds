@@ -74,7 +74,7 @@ class TestCreateOrUpdateEvaluationPrompt:
         mock_db_instance = Mock()
         mock_db_manager.get_instance.return_value = mock_db_instance
         mock_db_instance.query_one.return_value = None
-        mock_db_instance.insert.return_value = {'id': 1}
+        mock_db_instance.upsert.return_value = {'id': 1}
 
         success, message = create_or_update_evaluation_prompt(
             '診療録',
@@ -83,7 +83,7 @@ class TestCreateOrUpdateEvaluationPrompt:
 
         assert success is True
         assert '新規作成' in message
-        mock_db_instance.insert.assert_called_once()
+        mock_db_instance.upsert.assert_called_once()
 
     @patch('services.evaluation_service.DatabaseManager')
     def test_update_evaluation_prompt_success(self, mock_db_manager):
@@ -94,7 +94,7 @@ class TestCreateOrUpdateEvaluationPrompt:
             'document_type': '診療録',
             'content': '古いプロンプト'
         }
-        mock_db_instance.update.return_value = True
+        mock_db_instance.upsert.return_value = True
 
         success, message = create_or_update_evaluation_prompt(
             '診療録',
@@ -103,14 +103,14 @@ class TestCreateOrUpdateEvaluationPrompt:
 
         assert success is True
         assert '更新' in message
-        mock_db_instance.update.assert_called_once()
+        mock_db_instance.upsert.assert_called_once()
 
     def test_create_or_update_evaluation_prompt_empty_content(self):
         """空のプロンプト内容のテスト"""
         success, message = create_or_update_evaluation_prompt('診療録', '')
 
         assert success is False
-        assert 'プロンプトを入力してください' in message
+        assert '評価プロンプトを作成してください' in message
 
     @patch('services.evaluation_service.DatabaseManager')
     def test_create_or_update_evaluation_prompt_database_error(self, mock_db_manager):
@@ -162,7 +162,7 @@ class TestBuildEvaluationPrompt:
         result = build_evaluation_prompt("テンプレート", "", "", "", "")
 
         assert "テンプレート" in result
-        assert '【前回の記載】' in result
+        assert '【退院時処方(現在の処方)】' in result
         assert '【カルテ記載】' in result
 
 
